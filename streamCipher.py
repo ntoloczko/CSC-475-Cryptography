@@ -1,13 +1,13 @@
 import random
 import time
 
-def generateKey(seed, string_length):
+def generateKey(string, seed):
     random.seed(seed)
-    key = random.randbytes(string_length) #unique key for the sequence
+    key = random.randbytes(len(string)) #unique key for the sequence
     return key
 
 def encrypt(string, seed):
-    key = generateKey(seed, len(string))
+    key = generateKey(string, seed)
     encoded_string = string.encode()
     byte_array = bytearray(encoded_string)
     text_length = len(string)
@@ -21,7 +21,7 @@ def encrypt(string, seed):
     
 
 def decrypt(encrypted_string, seed):
-    key = generateKey(seed, len(encrypted_string))
+    key = generateKey(encrypted_string, seed)
     encrypted_array = bytearray(encrypted_string)
     text_length = len(encrypted_array)
 
@@ -40,7 +40,7 @@ def main():
     print(f"""
     Random seed: {seed} 
     Input string: {string} 
-    Psuedo random sequence: {generateKey(seed, len(string))} 
+    Psuedo random sequence: {generateKey(string, seed)} 
     Output byte: {encrypted_byte} 
     Decrypted byte: {decrypted_byte}
     """)
