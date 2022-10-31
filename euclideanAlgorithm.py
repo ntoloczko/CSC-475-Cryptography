@@ -22,22 +22,24 @@ def gcd(m, n):
 def main():
     print("The Euclidean Algorithm")
     print("-----------------------------")
-    gcd(250, 111)
-    num1 = input("Enter the first number to be evaluated: ")
+    num1 = input("Enter the first number for the algorithm: ")
     is_int = False
     while is_int is False:
         try:
             num1 = int(num1)
             is_int = True
-        except ValueError:
+        except:
             num1 = input("Error! The value entered was not valid, please enter an integer: ")
-    num2 = input("Enter the second number to be evaluated: ")
+
+    num2 = input("Enter the second number for the algorithm: ")
     is_int = False
     while is_int is False:
         try:
             num2 = int(num2)
             is_int = True
-        except ValueError:
+        except:
             num2 = input("Error! The value entered was not valid, please enter an integer: ")
     gcd(num1, num2)
+
+    
 main()
