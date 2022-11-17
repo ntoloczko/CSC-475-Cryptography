@@ -27,8 +27,8 @@ def encryptMessage(plain, key):
 
 setEnvVar()
 enableTransitEngine()
-key = createKey()
-encryptMessage('', key) # Write in the message that is being encrypted
-decodeMessage('', key) # Write in the outputted ciphertext
+createKey()
+encryptMessage('', '') # Write in the message that is being encrypted with the key
+decodeMessage('', '') # Write in the outputted ciphertext with the key
 decodedPlaintext = base64.b64decode('') # Write in the outputted plaintext
 print(decodedPlaintext.decode())
