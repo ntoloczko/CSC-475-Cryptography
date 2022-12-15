@@ -112,7 +112,7 @@ def keyGen():
         if prime2_result == 'failed':
             prime2 = primeNumber()
 
-        for num in range(0, 21): # Tries 20 bases
+        for num in range(1, 21): # Tries 20 bases
             base1 = random.randint(1, prime1) % prime1 # Finds a suitable base
             if primalityTest(base1, prime1-1, prime1) is True and num == 20 and success == 0: # If the 'prime' passed all 20 bases
                 good_primes += 1
@@ -131,7 +131,7 @@ def keyGen():
                     failure += 1
     
 
-        for num in range(0, 21): # Tries 20 bases
+        for num in range(1, 21): # Tries 20 bases
             base2 = random.randint(1, prime1) % prime2 # Finds a suitable base
             if primalityTest(base2, prime2-1, prime2) is True and num == 20 and success == 0: # If the 'prime' passed all 20 bases
                 good_primes += 1
@@ -150,7 +150,7 @@ def keyGen():
                     failure += 1
         
     if success == 2:
-        primalityTest(random.randint(0, 6) % 6, 6-1, 6, True) # Known non-prime used when both primes are correct on first run
+        primalityTest(random.randint(1, 6) % 6, 6-1, 6, True) # Known non-prime used when both primes are correct on first run
     
     n = prime1 * prime2
     
