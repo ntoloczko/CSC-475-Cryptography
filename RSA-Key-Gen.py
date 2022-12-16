@@ -1,27 +1,29 @@
 import time
 import random
 
-def primeNumber(print_trace=False):
-    binary_num = '1'
-    counter = 5
-    seed_spacer = random.randint(1, 11)
+def primeNumberGen(print_trace=False):
+    binary_num = '1' # Used to add to first and last bit of the number
+    seed_spacer = random.randint(1, 11) # Used because sometimes the machine works too fast and grabs the same prime twice
     randomSeed = int(time.time()) - seed_spacer
     random.seed(randomSeed)
-    trace = ''
+    trace = '' # Stores the trace
+    counter = 5
 
-    while counter > 0:
-        random_num = bin(random.randint(0, 1000001))
+    for i in range(0, 5):
+        random_num = bin(random.randint(0, 1000001)) # Any number between one and a million so that the computer does not take a massive number like 540 trillion
         random_bit = random_num[len(random_num) - 1]
         binary_num += random_bit
-        trace += '\nb_' + str(counter) + '|' + str(random_num).replace('0b', '') + '|' + str(random_bit)
+        trace += (f'\nb_{counter}|{random_num[2:]}|{random_bit}')
         counter -= 1
 
     binary_num += '1'
     decimal_num = int(binary_num, 2)
-    binary_num = '{:032b}'.format(decimal_num) 
-    trace += '\nNumber|' + str(decimal_num) + '|' + str(binary_num)
+    binary_num = '{:032b}'.format(decimal_num) # converts to 32 bits
+    trace += (f'\nNumber|{decimal_num}|{binary_num}')
+
     if print_trace is True:
         print(trace)
+
     return decimal_num
 
 def primalityTest(x, e, n, print_trace=False):
@@ -62,7 +64,7 @@ def euclid(m, n):
     s = [] 
     t = [] 
     q_values = []
-    print(f'i | q\t m\t n\t r\t s\t t')
+    print(f'i | q\t \tm\t n\t r\t s\t t')
     print('—————————————————————————————————————————————————————————')
 
     while n != 0:
@@ -70,20 +72,23 @@ def euclid(m, n):
         q_values.append(q)
         r = m % n #remainder
         if i == 1:
-            s.append(1), t.append(0)
+            s.append(1)
+            t.append(0)
         elif i == 2:
-            s.append(0), t.append(1)
-        else:
-            s.append(s[i-3]-(q_values[i-3]*s[i-2])), t.append(t[i-3]-(q_values[i-3]*t[i-2]))
+            s.append(0)
+            t.append(1)
+        elif i > 2:
+            s.append(s[i-3]-(q_values[i-3]*s[i-2]))
+            t.append(t[i-3]-(q_values[i-3]*t[i-2]))
 
-        print(f'{i} | {q}\t {m}\t {n}\t {r}\t {s[i-1]}\t {t[i-1]}') #creates most of the table
+        print(f'{i} | {q}   \t{m}\t {n}\t {r}\t {s[i-1]}\t {t[i-1]}') #creates most of the table
         m = n #switches current n to be new m
         n = r #does the same with r and n
         i += 1
 
     s.append(s[i-3]-(q_values[i-3]*s[i-2])), t.append(t[i-3]-(q_values[i-3]*t[i-2]))
     q, n, r = '', '', ''
-    print(f'{i} | {q}\t {m}\t {n}\t {r}\t {s[i-1]}\t {t[i-1]}') #creates the last line of the table
+    print(f'{i} | {q}    \t{m}\t {n}\t {r}\t {s[i-1]}\t {t[i-1]}') #creates the last line of the table
 
     if t[i-1] < 0:
         t[i-1] = t[i-1] + modulo
@@ -93,8 +98,8 @@ def euclid(m, n):
 
 def keyGen():
     print('-----------------------------------')
-    prime1 = primeNumber(True)
-    prime2 = primeNumber()
+    prime1 = primeNumberGen(True)
+    prime2 = primeNumberGen()
 
     success = 0
     failure = 0
@@ -105,12 +110,12 @@ def keyGen():
 
     while good_primes < 2 or prime1 == prime2:
         if prime1 == prime2:
-            prime1 = primeNumber()
-            prime2 = primeNumber()
+            prime1 = primeNumberGen()
+            prime2 = primeNumberGen()
         if prime1_result == 'failed':
-            prime1 = primeNumber()
+            prime1 = primeNumberGen()
         if prime2_result == 'failed':
-            prime2 = primeNumber()
+            prime2 = primeNumberGen()
 
         for num in range(1, 21): # Tries 20 bases
             base1 = random.randint(1, prime1) % prime1 # Finds a suitable base
@@ -156,10 +161,10 @@ def keyGen():
     
     print('\n')
 
-    e = 3
+    e = 3 # Starts with e of 3
     print(f'e = {e}')
     d = euclid(e, n)
-    while d[0] % n != 1:
+    while d[0] % n != 1: # If there is no inverse associated with that e
         e += 1
         print(f'e = {e}')
         d = euclid(e, n)
@@ -171,7 +176,7 @@ def keyGen():
     private_d = d[1]
 
 
-    print(f'p = {prime1}, q = {prime2}, n = {n}, e = {e}, d = {d[1]}')
+    print(f'p = {prime1}, q = {prime2}, n = {n}, e = {e}, d = {d[1]}') # Formats the output
     prime1 = '{:032b}'.format(prime1) 
     print(f'p = {prime1}')
     prime2 = '{:032b}'.format(prime2) 
@@ -186,4 +191,4 @@ def keyGen():
 
     return (private_n, private_d) # Returns the private key
 
-keyGen()
+keyGen() # Runs the program
